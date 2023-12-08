@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#!">Generative AI Curator</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <header class="py-5 bg-image-full"
+        style="background-image: url('https://source.unsplash.com/wfh8dDlNFOk/1600x900')">
+        <div class="text-center my-5">
+            <img class="img-fluid rounded-circle mb-4"
+                src="https://www.ujeil.com/news/photo/202012/266250_107484_2355.jpg" id="imageUpload" name="picture"
+                style="cursor: pointer;" />
+            <h1 class="text-white fs-3 fw-bolder">First step. Please upload the Pictures of exhibition  </h1>
+            <p class="text-white-50 mb-0">We will recommend you the music, Just Click the Image !</p>
+        </div>
+    </header>
+    <button id="completeUpload" style ="margin-left:43%; background-color: burlywood;color:black" >Go to next step.</button>
+    <input type="file" id="fileInput" style="display: none;" />
+
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; 슈퍼울트라캡숑짱지피티 2023</p>
+        </div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            document.getElementById('imageUpload').addEventListener('click', function () {
+                // 파일 선택 input을 클릭
+                document.getElementById('fileInput').click();
+            });
+            
+            document.getElementById('fileInput').addEventListener('change', async function () {
+                if (this.files.length > 0) {
+                    var formData = new FormData();
+                    for (var i = 0; i < this.files.length; i++) {
+                        formData.append('pictures[]', this.files[i]);
+                    }
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/upload_picture_exhibition', true);
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            console.log('Server response:', xhr.responseText);
+                            document.getElementById('completeUpload').disabled = false; // 업로드가 완료됬으므로 버튼을 활성화시킵니다.
+                        }
+                    };
+                    xhr.send(formData);
+                }
+            });
+            document.getElementById('completeUpload').addEventListener('click', function () {
+             // 사용자가 업로드 완료 버튼을 누르면 page2로 넘어갑니다.
+                window.location.href = "page2.html";
+            });
+        });
+    </script>
+
+
+</body>
+
+</html>
